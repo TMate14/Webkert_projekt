@@ -1,0 +1,14 @@
+<nav>
+  <ul>
+    <li><a routerLink="/">Home</a></li>
+    <li><a routerLink="/furniture">Furniture</a></li>
+    <li *ngIf="!(authService.currentUser | async)">
+      <a routerLink="/login">Login</a> / <a routerLink="/register">Register</a>
+    </li>
+    <li *ngIf="authService.currentUser | async as user">
+      <a routerLink="/profile">{{ user.name }}'s Profile</a> (<a href="#" (click)="logout()">Logout</a>)
+      <span *ngIf="user.role === 'admin'"> | <a routerLink="/admin">Admin</a></span>
+    </li>
+    <li><a routerLink="/cart">Cart</a></li>
+  </ul>
+</nav>

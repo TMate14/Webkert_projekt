@@ -1,0 +1,9 @@
+<div class="slideshow-container" *ngIf="furnitureList.length > 0">
+  <div *ngFor="let furniture of furnitureList; let i = index" [ngClass]="getSlideClass(i)" class="slide">
+    <img [src]="furniture.imageUrl" alt="{{furniture.name}}">
+    <div class="text">
+      <h3>{{furniture.name}}</h3>
+      <p>${{furniture.price}}</p>
+    </div>
+  </div>
+</div>

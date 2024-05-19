@@ -1,0 +1,45 @@
+<h2>Admin Panel</h2>
+
+<h3>Furniture List</h3>
+<ul>
+  <li *ngFor="let furniture of furnitureList">
+    {{ furniture.name }} - ${{ furniture.price }}
+    <button (click)="selectFurniture(furniture)">Edit</button>
+    <button (click)="deleteFurniture(furniture.id)">Delete</button>
+  </li>
+</ul>
+
+<h3 *ngIf="selectedFurniture">Edit Furniture</h3>
+<h3 *ngIf="!selectedFurniture">Add New Furniture</h3>
+
+<div>
+  <form (ngSubmit)="saveFurniture()">
+    <label>
+      Name:
+      <input type="text" [(ngModel)]="selectedFurniture?.name || newFurniture.name" name="name" required>
+    </label>
+    <br>
+    <label>
+      Description:
+      <input type="text" [(ngModel)]="selectedFurniture?.description || newFurniture.description" name="description" required>
+    </label>
+    <br>
+    <label>
+      Price:
+      <input type="number" [(ngModel)]="selectedFurniture?.price || newFurniture.price" name="price" required>
+    </label>
+    <br>
+    <label>
+      Image URL:
+      <input type="text" [(ngModel)]="selectedFurniture?.imageUrl || newFurniture.imageUrl" name="imageUrl" required>
+    </label>
+    <br>
+    <label>
+      Stock:
+      <input type="number" [(ngModel)]="selectedFurniture?.stock || newFurniture.stock" name="stock" required>
+    </label>
+    <br>
+    <button type="submit">Save</button>
+    <button type="button" (click)="cancelEdit()">Cancel</button>
+  </form>
+</div>

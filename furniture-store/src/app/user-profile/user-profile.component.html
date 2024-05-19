@@ -1,0 +1,19 @@
+<div *ngIf="user">
+  <h2>{{ user.name }}'s Profile</h2>
+  <p>Email: {{ user.email }}</p>
+  <h3>Previous Purchases</h3>
+  <div *ngIf="user.previousPurchases.length === 0">No purchases yet.</div>
+  <div *ngIf="user.previousPurchases.length > 0">
+    <div *ngFor="let purchase of user.previousPurchases">
+      <p>Purchase ID: {{ purchase.id }}</p>
+      <p>Date: {{ purchase.date | date }}</p>
+      <p>Total: ${{ purchase.total }}</p>
+      <ul>
+        <li *ngFor="let item of purchase.items">{{ item.name }} - ${{ item.price }} x {{ item.quantity }}</li>
+      </ul>
+      <hr>
+    </div>
+  </div>
+  <h3>Shopping Cart</h3>
+  <app-shopping-cart></app-shopping-cart>
+</div>
