@@ -1,35 +1,30 @@
-export interface Furniture {
+export class CartItem {
+  constructor(
+    public id: string,
+    public name: string,
+    public description: string,
+    public price: number,
+    public imageUrl: string,
+    public quantity: number
+  ) {}
+}
+
+export interface Purchase {
   id: string;
-  name: string;
-  description: string;
-  price: number;
-  imageUrl: string;
-  stock: number;
+  items: CartItem[];
+  total: number;
+  date: Date;
 }
 
 export interface User {
-    id: string;  // Change number to string
-    name: string;
-    email: string;
-    password: string;
-    role: 'admin' | 'user';
-    previousPurchases: Purchase[];
-  }
-  
-  export interface Purchase {
-    id: string;
-    items: CartItem[];
-    total: number;
-    date: Date;
-  }
-  
-  export interface CartItem {
-    id: string;
-    name: string;
-    price: number;
-    quantity: number;
-  }
-  
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  role: 'admin' | 'user';
+  previousPurchases: Purchase[];
+}
+
 
 export interface Furniture {
   id: string;
@@ -38,15 +33,6 @@ export interface Furniture {
   price: number;
   imageUrl: string;
   stock: number;
-}
-
-export class CartItem {
-  constructor(
-    public furnitureId: number,
-    public name: string,
-    public price: number,
-    public quantity: number
-  ) {}
 }
 
 export class ShoppingCart {
@@ -54,7 +40,7 @@ export class ShoppingCart {
 
   addItem(item: CartItem): void {
     const existingItem = this.items.find(
-      (i) => i.furnitureId === item.furnitureId
+      (i) => i.id === item.id
     );
     if (existingItem) {
       existingItem.quantity += item.quantity;
@@ -63,8 +49,8 @@ export class ShoppingCart {
     }
   }
 
-  removeItem(furnitureId: number): void {
-    this.items = this.items.filter((item) => item.furnitureId !== furnitureId);
+  removeItem(furnitureId: string): void {
+    this.items = this.items.filter((item) => item.id !== furnitureId);
   }
 
   clearCart(): void {

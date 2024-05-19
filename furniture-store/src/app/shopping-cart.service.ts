@@ -1,3 +1,4 @@
+// shopping-cart.service.ts
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { CartItem } from './models';
@@ -6,38 +7,30 @@ import { CartItem } from './models';
   providedIn: 'root'
 })
 export class ShoppingCartService {
-  private cartItemsSubject = new BehaviorSubject<CartItem[]>([]);
-  cartItems$ = this.cartItemsSubject.asObservable();
-
-  constructor() {}
+  private itemsSubject: BehaviorSubject<CartItem[]> = new BehaviorSubject<CartItem[]>([]);
+  public items$ = this.itemsSubject.asObservable();
 
   addItem(item: CartItem): void {
-    const currentItems = this.cartItemsSubject.value;
-    const existingItem = currentItems.find(ci => ci.furnitureId === item.furnitureId);
-
+    const items = this.itemsSubject.value;
+    const existingItem = items.find(i => i.id === item.id);
     if (existingItem) {
       existingItem.quantity += item.quantity;
     } else {
-      currentItems.push(item);
+      items.push(item);
     }
-
-    this.cartItemsSubject.next([...currentItems]);
+    this.itemsSubject.next(items);
   }
 
-  removeItem(furnitureId: number): void {
-    const currentItems = this.cartItemsSubject.value.filter(item => item.furnitureId !== furnitureId);
-    this.cartItemsSubject.next(currentItems);
+  removeItem(itemId: string): void {
+    const items = this.itemsSubject.value.filter(item => item.id !== itemId);
+    this.itemsSubject.next(items);
   }
 
   clearCart(): void {
-    this.cartItemsSubject.next([]);
-  }
-
-  getTotalPrice(): number {
-    return this.cartItemsSubject.value.reduce((total, item) => total + item.price * item.quantity, 0);
+    this.itemsSubject.next([]);
   }
 
   getItems(): CartItem[] {
-    return this.cartItemsSubject.value;
+    return this.itemsSubject.value;
   }
 }

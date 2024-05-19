@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FurnitureService } from '../furniture.service';
-import { ShoppingCartService } from '../shopping-cart.service';
-import { CartItem, Furniture } from '../models';
+import { CartService } from '../cart.service';
+import { Furniture } from '../models';
 
 @Component({
   selector: 'app-furniture-detail',
@@ -15,7 +15,7 @@ export class FurnitureDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private furnitureService: FurnitureService,
-    private shoppingCartService: ShoppingCartService
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
@@ -24,7 +24,6 @@ export class FurnitureDetailComponent implements OnInit {
   }
 
   addToCart(furniture: Furniture): void {
-    const cartItem = new CartItem(parseInt(furniture.id), furniture.name, furniture.price, 1);
-    this.shoppingCartService.addItem(cartItem);
+    this.cartService.addToCart(furniture, 1);
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ShoppingCartService } from '../shopping-cart.service';
 import { AuthService } from '../auth.service';
+import { CartService } from '../cart.service';
 import { CartItem } from '../models';
 
 @Component({
@@ -10,35 +11,68 @@ import { CartItem } from '../models';
 })
 export class ShoppingCartComponent implements OnInit {
   cartItems: CartItem[] = [];
-  totalPrice: number = 0;
+  total: number = 0;
 
-  constructor(
-    private shoppingCartService: ShoppingCartService,
-    private authService: AuthService
-  ) {}
+  constructor(private shoppingCartService: ShoppingCartService, private authService: AuthService, private cartService: CartService) {}
 
   ngOnInit(): void {
-    this.shoppingCartService.cartItems$.subscribe(items => {
-      this.cartItems = items;
-      this.totalPrice = this.shoppingCartService.getTotalPrice();
-    });
+    this.cartItems = this.cartService.getCartItems();
+    //this.loadCartItems();
+    this.calculateTotal();
   }
 
-  removeItem(furnitureId: number): void {
-    this.shoppingCartService.removeItem(furnitureId);
+  loadCartItems(): void {
+    this.cartItems = this.shoppingCartService.getItems();
   }
 
-  clearCart(): void {
-    this.shoppingCartService.clearCart();
+  calculateTotal(): void {
+    this.total = this.cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   }
 
-  buyItems(): void {
-    if (this.cartItems.length > 0) {
-      this.authService.makePurchase(this.cartItems, this.totalPrice);
-      this.clearCart();
-      alert('Purchase successful!');
+  removeFromCart(id: string): void {
+    //this.shoppingCartService.removeItem(id);
+    this.cartService.removeFromCart(id)
+    this.cartItems = this.cartService.getCartItems();
+    //this.loadCartItems();
+    this.calculateTotal();
+  }
+
+  // makePurchase(): void {
+  //   const user = this.authService.getCurrentUser();
+  //   if (user) {
+  //     this.authService.makePurchase(this.cartItems, this.total).then(() => {
+  //       this.cartService.clearCart();
+  //       //this.loadCartItems();
+  //       this.cartItems = this.cartService.getCartItems();
+  //       this.calculateTotal();
+  //     }).catch(error => {
+  //       console.error('Error making purchase:', error);
+  //     });
+  //   } else {
+  //     console.error('User not logged in');
+  //   }
+  // }
+
+  makePurchase(): void {
+    const user = this.authService.getCurrentUser();
+    if (user) {
+      const cartItemsData = this.cartItems.map(item => ({
+        id: item.id,
+        name: item.name,
+        description: item.description,
+        imageUrl: item.imageUrl,
+        price: item.price,
+        quantity: item.quantity
+      }));
+      this.authService.makePurchase(cartItemsData, this.total).then(() => {
+        this.cartService.clearCart();
+        this.cartItems = [];
+        this.calculateTotal();
+      }).catch(error => {
+        console.error('Error making purchase:', error);
+      });
     } else {
-      alert('Your cart is empty.');
+      console.error('User not logged in');
     }
   }
 }

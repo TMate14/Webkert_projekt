@@ -1,19 +1,26 @@
-<div *ngIf="user">
-  <h2>{{ user.name }}'s Profile</h2>
-  <p>Email: {{ user.email }}</p>
-  <h3>Previous Purchases</h3>
-  <div *ngIf="user.previousPurchases.length === 0">No purchases yet.</div>
-  <div *ngIf="user.previousPurchases.length > 0">
-    <div *ngFor="let purchase of user.previousPurchases">
-      <p>Purchase ID: {{ purchase.id }}</p>
-      <p>Date: {{ purchase.date | date }}</p>
-      <p>Total: ${{ purchase.total }}</p>
-      <ul>
-        <li *ngFor="let item of purchase.items">{{ item.name }} - ${{ item.price }} x {{ item.quantity }}</li>
-      </ul>
-      <hr>
+<mat-card class="profile-card">
+  <mat-card-title>User Profile</mat-card-title>
+  <mat-card-content>
+    <div *ngIf="user">
+      <p><strong>Name:</strong> {{ user.name }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+
+      <h3>Purchase History</h3>
+      <div *ngFor="let purchase of user.previousPurchases">
+        <mat-card class="purchase-card">
+          <mat-card-header>
+            <mat-card-title>Purchase on {{ getPurchaseDate(purchase) | date }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <ul>
+              <li *ngFor="let item of purchase.items">
+                {{ item.name }} ({{ item.quantity }}) - ${{ item.price }}
+              </li>
+            </ul>
+            <p><strong>Total:</strong> ${{ getPurchaseTotal(purchase) }}</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
     </div>
-  </div>
-  <h3>Shopping Cart</h3>
-  <app-shopping-cart></app-shopping-cart>
-</div>
+  </mat-card-content>
+</mat-card>

@@ -1,25 +1,91 @@
-nav {
-    background-color: #333;
-    color: white;
-    padding: 1em;
+/* nav {
+  background-color: #333;
+  color: white;
+  padding: 1em;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 1em;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+nav ul li a:hover {
+  text-decoration: underline;
+} */
+
+/* .logo {
+  font-size: 1.5em;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.mat-toolbar.mat-primary {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+}
+
+@media (max-width: 600px) {
+  .mat-toolbar .mat-button {
+    display: none;
+  }
+
+  .mat-toolbar button.mat-icon-button {
+    display: block;
+  }
+} */
+
+
+.site-title {
+  flex: 1;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.desktop-menu {
+  display: flex;
+  align-items: center;
+}
+
+.mobile-menu-button {
+  display: none;
+}
+
+.mat-drawer-content {
+  height: 100vh;
+}
+
+@media (max-width: 768px) {
+  .desktop-menu {
+    display: none;
   }
   
-  nav ul {
-    list-style: none;
-    padding: 0;
+  .mobile-menu-button {
+    display: block;
   }
-  
-  nav ul li {
-    display: inline;
-    margin-right: 1em;
-  }
-  
-  nav ul li a {
-    color: white;
-    text-decoration: none;
-  }
-  
-  nav ul li a:hover {
-    text-decoration: underline;
-  }
-  
+}

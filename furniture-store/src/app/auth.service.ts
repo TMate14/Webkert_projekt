@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User, CartItem, Purchase } from './models';
+import firebase from 'firebase/compat/app';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,12 @@ export class AuthService {
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.firestore.collection('users').doc<User>(user.uid).valueChanges().subscribe(currentUser => {
+          if (currentUser) {
+            currentUser.previousPurchases = currentUser.previousPurchases.map(purchase => ({
+              ...purchase,
+              date: (purchase.date as unknown as firebase.firestore.Timestamp).toDate()
+            }));
+          }
           this.currentUserSubject.next(currentUser || null);
         });
       } else {
@@ -44,7 +51,12 @@ export class AuthService {
   async makePurchase(cartItems: CartItem[], total: number): Promise<void> {
     const user = this.getCurrentUser();
     if (user) {
-      const newPurchase: Purchase = { id: Date.now().toString(), items: cartItems, total, date: new Date() };
+      const newPurchase: Purchase = {
+        id: Date.now().toString(),
+        items: cartItems,
+        total,
+        date: new Date()
+      };
       user.previousPurchases.push(newPurchase);
       await this.firestore.collection('users').doc(user.id).update(user);
       this.currentUserSubject.next(user); // Update the currentUserSubject to trigger updates

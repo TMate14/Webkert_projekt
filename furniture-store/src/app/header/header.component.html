@@ -1,14 +1,35 @@
-<nav>
-  <ul>
-    <li><a routerLink="/">Home</a></li>
-    <li><a routerLink="/furniture">Furniture</a></li>
-    <li *ngIf="!(authService.currentUser | async)">
-      <a routerLink="/login">Login</a> / <a routerLink="/register">Register</a>
-    </li>
-    <li *ngIf="authService.currentUser | async as user">
-      <a routerLink="/profile">{{ user.name }}'s Profile</a> (<a href="#" (click)="logout()">Logout</a>)
-      <span *ngIf="user.role === 'admin'"> | <a routerLink="/admin">Admin</a></span>
-    </li>
-    <li><a routerLink="/cart">Cart</a></li>
-  </ul>
-</nav>
+<mat-toolbar color="primary">
+  <button mat-icon-button (click)="toggleMobileMenu()" class="mobile-menu-button">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span class="site-title">Furniture Store</span>
+  <span class="spacer"></span>
+  <nav class="desktop-menu">
+    <a mat-button routerLink="/">Home</a>
+    <a mat-button routerLink="/furniture">Furniture</a>
+    <a *ngIf="isAdmin()" mat-button routerLink="/admin">Admin</a>
+    <a *ngIf="isLoggedIn" mat-button routerLink="/cart">Cart</a>
+    <a *ngIf="!isLoggedIn" mat-button routerLink="/login">Login</a>
+    <a *ngIf="!isLoggedIn" mat-button routerLink="/register">Register</a>
+    <a *ngIf="isLoggedIn" mat-button routerLink="/profile">Profile</a>
+    <button *ngIf="isLoggedIn" mat-button (click)="logout()">Logout</button>
+  </nav>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav #sidenav mode="over" [(opened)]="mobileMenuOpen">
+    <mat-nav-list>
+      <a mat-list-item routerLink="/">Home</a>
+      <a mat-list-item routerLink="/furniture">Furniture</a>
+      <a *ngIf="isAdmin()" mat-list-item routerLink="/admin">Admin</a>
+      <a *ngIf="isLoggedIn" mat-list-item routerLink="/cart">Cart</a>
+      <a *ngIf="!isLoggedIn" mat-list-item routerLink="/login">Login</a>
+      <a *ngIf="!isLoggedIn" mat-list-item routerLink="/register">Register</a>
+      <a *ngIf="isLoggedIn" mat-list-item routerLink="/profile">Profile</a>
+      <a *ngIf="isLoggedIn" mat-list-item (click)="logout()">Logout</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,10 +1,14 @@
-<div class="furniture-list">
-    <div *ngFor="let furniture of furnitureList" class="furniture-item">
-      <img [src]="furniture.imageUrl" alt="{{furniture.name}}">
-      <h3>{{furniture.name}}</h3>
+<div class="furniture-list-container">
+  <mat-card *ngFor="let furniture of furnitureList" class="furniture-card">
+    <img mat-card-image [src]="furniture.imageUrl" alt="{{furniture.name}}">
+    <mat-card-content>
+      <h2>{{furniture.name}}</h2>
       <p>{{furniture.description}}</p>
-      <p>Price: ${{furniture.price}}</p>
-      <a [routerLink]="['/furniture', furniture.id]">View Details</a>
-    </div>
-  </div>
-  
+      <p><strong>Price: </strong>{{furniture.price | currency}}</p>
+      <p><strong>Stock: </strong>{{furniture.stock}}</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="viewDetails(furniture.id)">View Details</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

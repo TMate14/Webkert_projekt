@@ -17,15 +17,24 @@ import { FormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
-// import { environment } from '../environments/environment';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSelectModule } from '@angular/material/select';
 
 const firebaseConfig = {
-  projectId: "furniturestoretmate",
-  appId: "1:720907215838:web:8154319e858f04a71df34f",
-  storageBucket: "furniturestoretmate.appspot.com",
-  apiKey: "AIzaSyAwxjxjgH0KkgqROJz0tP3q7WXYGaAm9kA",
-  authDomain: "furniturestoretmate.firebaseapp.com",
-  messagingSenderId: "720907215838"
+  projectId: 'furniturestoretmate',
+  appId: '1:720907215838:web:8154319e858f04a71df34f',
+  storageBucket: 'furniturestoretmate.appspot.com',
+  apiKey: 'AIzaSyAwxjxjgH0KkgqROJz0tP3q7WXYGaAm9kA',
+  authDomain: 'furniturestoretmate.firebaseapp.com',
+  messagingSenderId: '720907215838',
 };
 
 @NgModule({
@@ -40,17 +49,27 @@ const firebaseConfig = {
     LoginComponent,
     RegisterComponent,
     ShoppingCartComponent,
-    AdminComponent
+    AdminComponent,
   ],
   imports: [
+    AngularFireModule.initializeApp(firebaseConfig),
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    AngularFireModule.initializeApp(firebaseConfig),
     AngularFireAuthModule,
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatSidenavModule,
+    MatButtonModule,
+    MatListModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    BrowserAnimationsModule,
+    MatSelectModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

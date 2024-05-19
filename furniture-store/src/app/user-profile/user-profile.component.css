@@ -1,0 +1,18 @@
+.profile-card {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.purchase-card {
+  margin-bottom: 20px;
+}
+
+.purchase-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.purchase-card li {
+  margin-bottom: 5px;
+}

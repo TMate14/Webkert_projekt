@@ -1,0 +1,13 @@
+.furniture-list-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    padding: 16px;
+  }
+  
+  .furniture-card {
+    width: 300px;
+    align-items: center;
+  }
+  

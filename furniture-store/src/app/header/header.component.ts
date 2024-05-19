@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -6,10 +6,30 @@ import { AuthService } from '../auth.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent {
-  constructor(public authService: AuthService) {}
+export class HeaderComponent implements OnInit {
+  isLoggedIn = false;
+  mobileMenuOpen = false;
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.authService.currentUser.subscribe(user => {
+      this.isLoggedIn = !!user;
+    });
+  }
+
+  isAdmin(): boolean {
+    const user = this.authService.getCurrentUser();
+    return user?.role === 'admin';
+  }
 
   logout(): void {
-    this.authService.logout();
+    this.authService.logout().then(() => {
+      this.isLoggedIn = false;
+    });
+  }
+
+  toggleMobileMenu(): void {
+    this.mobileMenuOpen = !this.mobileMenuOpen;
   }
 }

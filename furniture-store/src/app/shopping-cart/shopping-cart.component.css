@@ -1,0 +1,17 @@
+mat-card {
+  margin: 20px;
+}
+
+.cart-item {
+  margin-bottom: 20px;
+}
+
+.total {
+  text-align: right;
+  margin-top: 20px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}

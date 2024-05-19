@@ -8,19 +8,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  email: string = '';
-  password: string = '';
+  email = '';
+  password = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  async login(): Promise<void> {
-    try {
-      await this.authService.login(this.email, this.password);
+  onSubmit(): void {
+    this.authService.login(this.email, this.password).then(() => {
       this.router.navigate(['/']);
-    } catch (error) {
+    }).catch(error => {
       console.error('Login error:', error);
-      // handle error, e.g., show an error message
-    }
+    });
   }
-  
 }

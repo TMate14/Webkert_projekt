@@ -11,7 +11,7 @@ export class AdminComponent implements OnInit {
   furnitureList: Furniture[] = [];
   selectedFurniture: Furniture | null = null;
   newFurniture: Furniture = {
-    id: '0',
+    id: '',
     name: '',
     description: '',
     price: 0,
@@ -33,30 +33,45 @@ export class AdminComponent implements OnInit {
 
   selectFurniture(furniture: Furniture): void {
     this.selectedFurniture = { ...furniture }; // Create a copy to edit
+    console.log('Selected furniture for editing:', this.selectedFurniture);
   }
 
   saveFurniture(): void {
     if (this.selectedFurniture) {
-      this.furnitureService.updateFurniture(this.selectedFurniture);
+      console.log('Saving edited furniture:', this.selectedFurniture);
+      this.furnitureService.updateFurniture(this.selectedFurniture).then(() => {
+        console.log('Furniture updated successfully');
+        this.loadFurniture();
+        this.selectedFurniture = null;
+      }).catch(error => {
+        console.error('Error updating furniture:', error);
+      });
     } else {
-      this.furnitureService.addFurniture(this.newFurniture);
-      this.newFurniture = {
-        id: '0',
-        name: '',
-        description: '',
-        price: 0,
-        imageUrl: '',
-        stock: 0
-      };
+      console.log('Adding new furniture:', this.newFurniture);
+      this.furnitureService.addFurniture(this.newFurniture).then(() => {
+        this.newFurniture = {
+          id: '',
+          name: '',
+          description: '',
+          price: 0,
+          imageUrl: '',
+          stock: 0
+        };
+        this.loadFurniture();
+      }).catch(error => {
+        console.error('Error adding furniture:', error);
+      });
     }
-    this.loadFurniture();
-    this.selectedFurniture = null;
   }
 
   deleteFurniture(id: string): void {
-    this.furnitureService.deleteFurniture(id);
-    this.loadFurniture();
-  }  
+    this.furnitureService.deleteFurniture(id).then(() => {
+      console.log('Furniture deleted successfully');
+      this.loadFurniture();
+    }).catch(error => {
+      console.error('Error deleting furniture:', error);
+    });
+  }
 
   cancelEdit(): void {
     this.selectedFurniture = null;

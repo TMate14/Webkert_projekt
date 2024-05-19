@@ -8,15 +8,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  name: string = '';
-  email: string = '';
-  password: string = '';
+  name = '';
+  email = '';
+  password = '';
   role: 'admin' | 'user' = 'user';
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  register(): void {
-    this.authService.register(this.name, this.email, this.password, this.role);
-    this.router.navigate(['/login']);
+  onSubmit(): void {
+    this.authService.register(this.name, this.email, this.password, this.role).then(() => {
+      this.router.navigate(['/']);
+    }).catch(error => {
+      console.error('Registration error:', error);
+    });
   }
 }
